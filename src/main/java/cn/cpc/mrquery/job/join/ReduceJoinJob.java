@@ -23,6 +23,9 @@ import org.apache.hadoop.util.ToolRunner;
 import java.io.IOException;
 import java.util.Iterator;
 
+/*
+ * SELECT table1.related_field, table1.val, table2.val FROM table1 LEFT JOIN table2 ON table1.related_field = table2.related_field;
+ */
 public class ReduceJoinJob extends Configured implements Tool {
 
     private static final int TABLE1_TAG = 1;
