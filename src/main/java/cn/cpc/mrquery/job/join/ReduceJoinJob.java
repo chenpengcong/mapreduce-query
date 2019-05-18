@@ -1,6 +1,6 @@
 package cn.cpc.mrquery.job.join;
 
-import cn.cpc.mrquery.mr.join.RJGourpComparator;
+import cn.cpc.mrquery.mr.join.RJGroupComparator;
 import cn.cpc.mrquery.mr.join.RJPartitioner;
 import cn.cpc.mrquery.writable.join.RJKeyWritable;
 import cn.cpc.mrquery.writable.join.RJValWritable;
@@ -116,7 +116,7 @@ public class ReduceJoinJob extends Configured implements Tool {
         job.setMapOutputValueClass(RJValWritable.class);
         job.setOutputKeyClass(NullWritable.class);
         job.setOutputValueClass(Text.class);
-        job.setGroupingComparatorClass(RJGourpComparator.class);
+        job.setGroupingComparatorClass(RJGroupComparator.class);
         job.setPartitionerClass(RJPartitioner.class);
 
         Path table1Path = new Path(args[0]);

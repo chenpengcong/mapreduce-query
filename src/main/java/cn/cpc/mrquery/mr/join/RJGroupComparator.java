@@ -4,7 +4,7 @@ import cn.cpc.mrquery.writable.join.RJKeyWritable;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 
-public class RJGourpComparator extends WritableComparator {
+public class RJGroupComparator extends WritableComparator {
 
     @Override
     public int compare(WritableComparable a, WritableComparable b) {
@@ -14,7 +14,7 @@ public class RJGourpComparator extends WritableComparator {
         return cmpRes;
     }
 
-    public RJGourpComparator() {
+    public RJGroupComparator() {
         super(RJKeyWritable.class, true);
     }
 }
