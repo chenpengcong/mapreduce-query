@@ -1,5 +1,6 @@
-package cn.cpc.mrquery.job.groupby;
+package cn.cpc.mrquery.job.multicountdistinct;
 
+import cn.cpc.mrquery.job.countdistinct.CountDistinctJob;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -13,11 +14,11 @@ import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 
-public class GroupByJobTest {
+public class MultiCountDistinctJobTest {
     @Test
     public void test() throws Exception {
-        Path inputPath = new Path("input/groupby");
-        Path outputPath = new Path("output/groupby");
+        Path inputPath = new Path("input/multicountdistinct");
+        Path outputPath = new Path("output/multicountdistinct");
 
         Configuration conf = new Configuration();
         conf.set("fs.defaultFS", "file:///");
@@ -30,21 +31,23 @@ public class GroupByJobTest {
             fs.delete(outputPath, true);
         }
         createInput(fs, new Path(inputPath, "part-0"));
-        GroupByJob groupByJob = new GroupByJob();
-        groupByJob.setConf(conf);
-        int res = groupByJob.run(new String[]{inputPath.toString(), outputPath.toString()});
+        MultiCountDistinctJob multiCountDistinctJob = new MultiCountDistinctJob();
+        multiCountDistinctJob.setConf(conf);
+        int res = multiCountDistinctJob.run(new String[]{inputPath.toString(), outputPath.toString()});
         assertEquals(0, res);
         checkOutput(fs, new Path(outputPath, "part-r-00000"));
     }
 
     private void createInput(FileSystem fs, Path inputFile) throws IOException {
         ArrayList<String> inputList = new ArrayList<>();
-        inputList.add("foo,bar");
-        inputList.add("bar,baz");
-        inputList.add("foo,bar");
-        inputList.add("foo,baz");
-        inputList.add("foo,bar");
-        inputList.add("bar,baz");
+        inputList.add("1,foo,bar,");
+        inputList.add("1,baz,foo");
+        inputList.add("1,bar,bar");
+        inputList.add("3,bar,baz");
+        inputList.add("3,bar,foo");
+        inputList.add("2,baz,baz");
+        inputList.add("2,bar,foo");
+        inputList.add("2,baz,bar");
         DataOutputStream file = fs.create(inputFile);
         for(String inp : inputList) {
             file.writeBytes(inp + "\n");
@@ -55,9 +58,9 @@ public class GroupByJobTest {
 
     private void checkOutput(FileSystem fs, Path outputFile) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(fs.open(outputFile)));
-        assertEquals("bar,baz,2", bf.readLine());
-        assertEquals("foo,bar,3", bf.readLine());
-        assertEquals("foo,baz,1", bf.readLine());
+        assertEquals("1,3,2", bf.readLine());
+        assertEquals("2,2,3", bf.readLine());
+        assertEquals("3,1,2", bf.readLine());
         bf.close();
     }
 }

@@ -1,7 +1,6 @@
 package cn.cpc.mrquery.writable.groupby;
 
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
 
 import java.io.DataInput;

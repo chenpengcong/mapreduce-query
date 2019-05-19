@@ -28,8 +28,6 @@ public class GroupByJob extends Configured implements Tool {
 
     private static final String DELIMITER = ",";
 
-
-
     public static class GroupByMapper extends Mapper<LongWritable, Text, GBKeyWritable, IntWritable> {
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
