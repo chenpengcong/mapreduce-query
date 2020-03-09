@@ -9,6 +9,6 @@ import java.util.Objects;
 public class RJPartitioner extends Partitioner<RJKeyWritable, Writable> {
     @Override
     public int getPartition(RJKeyWritable rjKeyWritable, Writable writable, int i) {
-        return Math.abs(Objects.hash(rjKeyWritable.getRelatedField()) * 127) % i;
+        return Math.abs(Objects.hash(rjKeyWritable.getRelatedField()) % i);
     }
 }

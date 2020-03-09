@@ -9,6 +9,6 @@ import java.util.Objects;
 public class MCDPartitioner extends Partitioner<MCDKeyWritable, Writable> {
     @Override
     public int getPartition(MCDKeyWritable mcdKeyWritable, Writable writable, int i) {
-        return Math.abs(Objects.hash(mcdKeyWritable.getGroupField()) * 127) % i;
+        return Math.abs(Objects.hash(mcdKeyWritable.getGroupField()) % i);
     }
 }

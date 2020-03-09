@@ -9,6 +9,6 @@ import java.util.Objects;
 public class CDPartitioner extends Partitioner<CDKeyWritable, Writable> {
     @Override
     public int getPartition(CDKeyWritable cdKeyWritable, Writable writable, int i) {
-        return Math.abs(Objects.hash(cdKeyWritable.getGroupField()) * 127) % i;
+        return Math.abs(Objects.hash(cdKeyWritable.getGroupField()) % i);
     }
 }
